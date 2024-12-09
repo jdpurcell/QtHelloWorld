@@ -1,0 +1,40 @@
+name: Build
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  build:
+    name: Build
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: 'macos-latest'
+            buildArch: 'Universal'
+            qtVersion: '6.8.1'
+          - runner: 'windows-latest'
+            buildArch: 'X64'
+            qtVersion: '6.8.1'
+            qtArch: 'win64_msvc2022_64'
+          - runner: 'windows-latest'
+            buildArch: 'Arm64'
+            qtVersion: '6.8.1'
+            qtArch: 'win64_msvc2022_arm64_cross_compiled'
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: ${{ matrix.qtVersion }}
+          arch: ${{ matrix.qtArch }}
+          cache: true
+      - name: Build
+        shell: pwsh
+        run: ci/build.ps1
+        env:
+          buildArch: ${{ matrix.buildArch }}
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: QtHelloWorld-${{ runner.os }}-${{ matrix.buildArch }}-${{ matrix.qtVersion }}
+          path: build
