@@ -2,10 +2,6 @@ $qtVersion = [version](qmake -query QT_VERSION)
 Write-Host "Detected Qt version $qtVersion"
 
 if ($IsWindows) {
-    if ($env:buildArch -eq 'Arm64') {
-        $env:QT_HOST_PATH = (qmake -query QT_HOST_PREFIX)
-    }
-
     $argArch =
         $env:buildArch -eq 'X64' ? 'x64' :
         $env:buildArch -eq 'Arm64' ? 'x64_arm64' :
