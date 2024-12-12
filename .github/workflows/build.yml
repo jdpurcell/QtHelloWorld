@@ -8,7 +8,7 @@ jobs:
       matrix:
         include:
           - runner: 'ubuntu-20.04'
-            qtVersion: '6.8'
+            qtVersion: '6.8.*'
     runs-on: ${{ matrix.runner }}
     steps:
       - name: Checkout
@@ -17,7 +17,6 @@ jobs:
         uses: jurplel/install-qt-action@v4
         with:
           version: ${{ matrix.qtVersion }}
-          aqtsource: 'git+https://github.com/miurahr/aqtinstall.git@v3.1.19'
       # - name: Build
       #   shell: pwsh
       #   run: ci/build.ps1
