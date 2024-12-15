@@ -1,12 +1,7 @@
 $qtVersion = [version](qmake -query QT_VERSION)
 Write-Host "Detected Qt version $qtVersion"
-return
 
 if ($IsWindows) {
-    if ($env:buildArch -eq 'Arm64') {
-        $env:QT_HOST_PATH = (qmake -query QT_HOST_PREFIX)
-    }
-
     $argArch =
         $env:buildArch -eq 'X64' ? 'x64' :
         $env:buildArch -eq 'Arm64' ? 'x64_arm64' :
@@ -45,11 +40,11 @@ $appName = "QtHelloWorld"
 if ($IsWindows) {
     if ($env:buildArch -eq 'Arm64') {
         $winDeployQt = "$env:QT_HOST_PATH\bin\windeployqt"
-        $argQmake = "--qmake=$env:QT_ROOT_DIR\bin\qmake.bat"
+        $argQtPaths = "--qtpaths=$env:QT_ROOT_DIR\bin\qtpaths.bat"
     } else {
         $winDeployQt = "windeployqt"
     }
-    & $winDeployQt $argQmake --no-compiler-runtime --no-translations --no-system-d3d-compiler --no-system-dxc-compiler --no-opengl-sw "$appName.exe"
+    & $winDeployQt $argQtPaths --no-compiler-runtime --no-translations --no-system-d3d-compiler --no-system-dxc-compiler --no-opengl-sw "$appName.exe"
 } elseif ($IsMacOS) {
     macdeployqt "$appName.app"
 

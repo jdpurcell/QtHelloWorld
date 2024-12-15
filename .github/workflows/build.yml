@@ -7,8 +7,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - runner: 'macos-latest'
-            qtVersion: '6.7.3'
+          - runner: 'windows-latest'
+            buildArch: 'Arm64'
+            qtVersion: '6.8.1'
+            qtArch: 'win64_msvc2022_arm64_cross_compiled'
     runs-on: ${{ matrix.runner }}
     steps:
       - name: Checkout
@@ -17,9 +19,15 @@ jobs:
         uses: jdpurcell/install-qt-action@v4
         with:
           version: ${{ matrix.qtVersion }}
-          host: 'windows'
-          target: 'desktop'
-          arch: 'win64_msvc2019_arm64'
+          arch: ${{ matrix.qtArch }}
+          cache: false
       - name: Build
         shell: pwsh
         run: ci/build.ps1
+        env:
+          buildArch: ${{ matrix.buildArch }}
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: QtHelloWorld-${{ runner.os }}-${{ matrix.buildArch }}-${{ matrix.qtVersion }}
+          path: build
