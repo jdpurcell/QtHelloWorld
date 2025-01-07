@@ -30,7 +30,7 @@ qmake DESTDIR="build" $argDeviceArchs
 
 if ($IsWindows) {
     nmake
-} elseif ($IsMacOS) {
+} else {
     make
 }
 
@@ -51,4 +51,30 @@ if ($IsWindows) {
     hdiutil convert "temp.sparsebundle" -format ULFO -o "$appName.dmg"
     Remove-Item -Recurse "temp.sparsebundle"
     Remove-Item -Recurse "$appName.app"
+} elseif ($IsLinux) {
+    sudo apt update
+    sudo apt install libfuse2
+
+    $archName = switch ($env:buildArch) {
+        'X64' { 'x86_64' }
+        'Arm64' { 'aarch64' }
+        default { throw 'Unsupported build architecture.' }
+    }
+
+    Invoke-WebRequest -Uri "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-$archName.AppImage" -OutFile "../linuxdeploy-$archName.AppImage"
+    Invoke-WebRequest -Uri "https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-$archName.AppImage" -OutFile "../linuxdeploy-plugin-qt-$archName.AppImage"
+    chmod +x "../linuxdeploy-$archName.AppImage"
+    chmod +x "../linuxdeploy-plugin-qt-$archName.AppImage"
+
+    & "../linuxdeploy-$archName.AppImage" `
+        --appdir "AppDir" `
+        --executable "$appName" `
+        --create-desktop-file `
+        --icon-file "$env:GITHUB_WORKSPACE/dist/app-generic.svg" `
+        --icon-filename "$appName" `
+        --plugin qt `
+        --output appimage
+
+    Remove-Item -Recurse "AppDir" -Force
+    Remove-Item $appName
 }
