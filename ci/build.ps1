@@ -6,12 +6,10 @@ if ($IsWindows) {
         $env:QT_HOST_PATH = (qmake -query QT_HOST_PREFIX)
     }
 
-    $argArch =
-        $env:buildArch -eq 'X64' ? 'x64' :
-        $env:buildArch -eq 'Arm64' ? 'x64_arm64' :
-        $null
-    if (-not $argArch) {
-        throw 'Unsupported build architecture.'
+    $argArch = switch ($env:buildArch) {
+        'X64' { 'x64' }
+        'Arm64' { 'x64_arm64' }
+        default { throw 'Unsupported build architecture.' }
     }
     $vsDir = vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
     cmd /c "`"$(Join-Path $vsDir 'VC\Auxiliary\Build\vcvarsall.bat')`" $argArch > null && set" | ForEach-Object {
@@ -21,13 +19,11 @@ if ($IsWindows) {
 }
 
 if ($IsMacOS) {
-    $argDeviceArchs =
-        $env:buildArch -eq 'X64' ? 'QMAKE_APPLE_DEVICE_ARCHS=x86_64' :
-        $env:buildArch -eq 'Arm64' ? 'QMAKE_APPLE_DEVICE_ARCHS=arm64' :
-        $env:buildArch -eq 'Universal' ? 'QMAKE_APPLE_DEVICE_ARCHS=x86_64 arm64' :
-        $null
-    if (-not $argDeviceArchs) {
-        throw 'Unsupported build architecture.'
+    $argDeviceArchs = switch ($env:buildArch) {
+        'X64' { 'QMAKE_APPLE_DEVICE_ARCHS=x86_64' }
+        'Arm64' { 'QMAKE_APPLE_DEVICE_ARCHS=arm64' }
+        'Universal' { 'QMAKE_APPLE_DEVICE_ARCHS=x86_64 arm64' }
+        default { throw 'Unsupported build architecture.' }
     }
 }
 qmake DESTDIR="build" $argDeviceArchs
@@ -42,12 +38,9 @@ Set-Location "build"
 $appName = "QtHelloWorld"
 
 if ($IsWindows) {
-    if ($env:buildArch -eq 'Arm64') {
-        $winDeployQt = "$env:QT_HOST_PATH\bin\windeployqt"
-        $argQmake = "--qmake=$env:QT_ROOT_DIR\bin\qmake.bat"
-    } else {
-        $winDeployQt = "windeployqt"
-    }
+    $isCrossCompile = $env:buildArch -eq 'Arm64'
+    $winDeployQt = $isCrossCompile ? "$env:QT_HOST_PATH\bin\windeployqt" : "windeployqt"
+    $argQmake = $isCrossCompile ? "--qmake=$env:QT_ROOT_DIR\bin\qmake.bat" : $null
     & $winDeployQt $argQmake --no-compiler-runtime --no-translations --no-system-d3d-compiler --no-system-dxc-compiler --no-opengl-sw "$appName.exe"
 } elseif ($IsMacOS) {
     macdeployqt "$appName.app"
