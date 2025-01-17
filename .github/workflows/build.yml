@@ -21,12 +21,15 @@ jobs:
           - runner: 'ubuntu-22.04'
             buildArch: 'X64'
             qtVersion: '6.8.1'
+          - runner: 'ubuntu-24.04-arm'
+            buildArch: 'Arm64'
+            qtVersion: '6.8.1'
     runs-on: ${{ matrix.runner }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install Qt
-        uses: jurplel/install-qt-action@v4
+        uses: jdpurcell/install-qt-action@v4
         with:
           version: ${{ matrix.qtVersion }}
           arch: ${{ matrix.qtArch }}
