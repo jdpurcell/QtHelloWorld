@@ -9,18 +9,18 @@ jobs:
         include:
           - runner: 'macos-latest'
             buildArch: 'Universal'
-            qtVersion: '6.8.1'
+            qtVersion: '6.8.2'
           - runner: 'windows-latest'
             buildArch: 'X64'
-            qtVersion: '6.8.1'
+            qtVersion: '6.8.2'
             qtArch: 'win64_msvc2022_64'
           - runner: 'windows-latest'
             buildArch: 'Arm64'
-            qtVersion: '6.8.1'
+            qtVersion: '6.8.2'
             qtArch: 'win64_msvc2022_arm64_cross_compiled'
           - runner: 'ubuntu-22.04'
             buildArch: 'X64'
-            qtVersion: '6.8.1'
+            qtVersion: '6.8.2'
     runs-on: ${{ matrix.runner }}
     steps:
       - name: Checkout
@@ -30,7 +30,7 @@ jobs:
         with:
           version: ${{ matrix.qtVersion }}
           arch: ${{ matrix.qtArch }}
-          cache: true
+          cache: false
       - name: Build
         shell: pwsh
         run: ci/build.ps1
