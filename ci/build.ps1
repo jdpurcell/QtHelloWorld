@@ -18,6 +18,8 @@ if ($IsWindows) {
     }
 }
 
+patch main.cpp "util/test.patch"
+
 if ($IsMacOS) {
     $argDeviceArchs = switch ($env:buildArch) {
         'X64' { 'QMAKE_APPLE_DEVICE_ARCHS=x86_64' }

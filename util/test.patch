@@ -1,0 +1,11 @@
+--- a/main.cpp
++++ b/main.cpp
+@@ -3,7 +3,7 @@
+ class MainWindow : public QMainWindow {
+ public:
+     MainWindow(QWidget *parent = nullptr) : QMainWindow{parent} {
+-        setWindowTitle("Hello World");
++        setWindowTitle("Hi World");
+         setCentralWidget(new QWidget(this));
+     }
+ };
