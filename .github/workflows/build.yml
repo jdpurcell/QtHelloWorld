@@ -28,7 +28,7 @@ jobs:
         with:
           version: ${{ matrix.qtVersion }}
           arch: ${{ matrix.qtArch }}
-          aqtsource: 'git+https://github.com/miurahr/aqtinstall.git@master'
+          aqtsource: 'git+https://github.com/jdpurcell/aqtinstall.git@pr-macos-official'
           use-official: true
           email: ${{ secrets.QT_EMAIL }}
           pw: ${{ secrets.QT_PW }}
