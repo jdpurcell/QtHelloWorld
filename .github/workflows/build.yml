@@ -10,27 +10,28 @@ jobs:
           - runner: 'macos-latest'
             buildArch: 'Universal'
             qtVersion: '6.8.1'
+            qtArch: 'clang_64'
           - runner: 'windows-latest'
             buildArch: 'X64'
             qtVersion: '6.8.1'
             qtArch: 'win64_msvc2022_64'
-          - runner: 'windows-latest'
-            buildArch: 'Arm64'
-            qtVersion: '6.8.1'
-            qtArch: 'win64_msvc2022_arm64_cross_compiled'
           - runner: 'ubuntu-22.04'
             buildArch: 'X64'
             qtVersion: '6.8.1'
+            qtArch: 'linux_gcc_64'
     runs-on: ${{ matrix.runner }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install Qt
-        uses: jurplel/install-qt-action@v4
+        uses: jdpurcell/install-qt-action@v4.4
         with:
           version: ${{ matrix.qtVersion }}
           arch: ${{ matrix.qtArch }}
-          cache: true
+          aqtsource: 'git+https://github.com/miurahr/aqtinstall.git@master'
+          use-official: true
+          email: ${{ secrets.QT_EMAIL }}
+          pw: ${{ secrets.QT_PW }}
       - name: Build
         shell: pwsh
         run: ci/build.ps1
