@@ -26,11 +26,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install Qt
-        uses: jdpurcell/install-qt-action@v4.4
+        uses: jdpurcell/install-qt-action@v4.5
         with:
           version: ${{ matrix.qtVersion }}
           arch: ${{ matrix.qtArch }}
-          cache: true
+          cache: false
       - name: Build
         shell: pwsh
         run: ci/build.ps1
