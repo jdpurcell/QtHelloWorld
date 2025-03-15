@@ -31,6 +31,8 @@ jobs:
           version: ${{ matrix.qtVersion }}
           arch: ${{ matrix.qtArch }}
           cache: false
+          use-naqt: true
+          setup-python: false
       - name: Build
         shell: pwsh
         run: ci/build.ps1
