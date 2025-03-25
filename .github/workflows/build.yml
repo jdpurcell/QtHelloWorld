@@ -9,21 +9,21 @@ jobs:
         include:
           - runner: 'macos-latest'
             buildArch: 'Universal'
-            qtVersion: '6.8.2'
+            qtVersion: '6.8.3'
           - runner: 'windows-latest'
             buildArch: 'X64'
-            qtVersion: '6.8.2'
+            qtVersion: '6.8.3'
             qtArch: 'win64_msvc2022_64'
           - runner: 'windows-latest'
             buildArch: 'Arm64'
-            qtVersion: '6.8.2'
+            qtVersion: '6.8.3'
             qtArch: 'win64_msvc2022_arm64_cross_compiled'
           - runner: 'ubuntu-22.04'
             buildArch: 'X64'
-            qtVersion: '6.8.2'
+            qtVersion: '6.8.3'
           - runner: 'ubuntu-24.04-arm'
             buildArch: 'Arm64'
-            qtVersion: '6.8.2'
+            qtVersion: '6.8.3'
     runs-on: ${{ matrix.runner }}
     steps:
       - name: Checkout
@@ -35,6 +35,7 @@ jobs:
           arch: ${{ matrix.qtArch }}
           use-naqt: true
           setup-python: false
+          extra: '--nohash'
       - name: Build
         shell: pwsh
         run: ci/build.ps1
