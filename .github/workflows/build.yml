@@ -26,10 +26,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install Qt
-        uses: jurplel/install-qt-action@v4
+        uses: jdpurcell/install-qt-action@v5
         with:
           version: ${{ matrix.qtVersion }}
           arch: ${{ matrix.qtArch }}
+          use-naqt: true
           setup-python: false
       - name: Build
         shell: pwsh
