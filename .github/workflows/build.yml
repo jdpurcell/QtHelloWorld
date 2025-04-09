@@ -30,7 +30,6 @@ jobs:
         with:
           version: ${{ matrix.qtVersion }}
           arch: ${{ matrix.qtArch }}
-          cache: true
       - name: Build
         shell: pwsh
         run: ci/build.ps1
