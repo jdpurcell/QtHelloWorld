@@ -32,10 +32,10 @@ jobs:
           arch: ${{ matrix.qtArch }}
           cache: false
           use-naqt: true
-          naqt-via-git: true
           setup-python: false
           mirror: https://qt.mirror.constant.com
           nohash: true
+          extensions: qtpdf
       - name: Build
         shell: pwsh
         run: ci/build.ps1
