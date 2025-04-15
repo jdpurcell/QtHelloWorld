@@ -2,16 +2,18 @@ $qtVersion = [version](qmake -query QT_VERSION)
 Write-Host "Detected Qt version $qtVersion"
 
 if ($IsWindows) {
-    if ($env:buildArch -eq 'Arm64') {
-        $env:QT_HOST_PATH = (qmake -query QT_HOST_PREFIX)
-    }
-
-    $argArch = switch ($env:buildArch) {
-        'X64' { 'x64' }
-        'Arm64' { 'x64_arm64' }
+    switch ($env:buildArch) {
+        'X64' {
+            $argArch = 'x64'
+            $argComponent = 'Microsoft.VisualStudio.Component.VC.Tools.x86.x64'
+        }
+        'Arm64' {
+            $argArch = 'arm64'
+            $argComponent = 'Microsoft.VisualStudio.Component.VC.Tools.ARM64'
+        }
         default { throw 'Unsupported build architecture.' }
     }
-    $vsDir = vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+    $vsDir = vswhere -latest -products * -requires $argComponent -property installationPath
     cmd /c "`"$(Join-Path $vsDir 'VC\Auxiliary\Build\vcvarsall.bat')`" $argArch > null && set" | ForEach-Object {
         $name, $value = $_ -Split '=', 2
         [Environment]::SetEnvironmentVariable($name, $value)
@@ -38,10 +40,7 @@ Set-Location "build"
 $appName = "QtHelloWorld"
 
 if ($IsWindows) {
-    $isCrossCompile = $env:buildArch -eq 'Arm64'
-    $winDeployQt = $isCrossCompile ? "$env:QT_HOST_PATH\bin\windeployqt" : "windeployqt"
-    $argQmake = $isCrossCompile ? "--qmake=$env:QT_ROOT_DIR\bin\qmake.bat" : $null
-    & $winDeployQt $argQmake --no-compiler-runtime --no-translations --no-system-d3d-compiler --no-system-dxc-compiler --no-opengl-sw "$appName.exe"
+    windeployqt --no-compiler-runtime --no-translations --no-system-d3d-compiler --no-system-dxc-compiler --no-opengl-sw "$appName.exe"
 } elseif ($IsMacOS) {
     macdeployqt "$appName.app"
 
