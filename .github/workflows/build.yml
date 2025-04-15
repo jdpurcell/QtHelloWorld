@@ -26,10 +26,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install Qt
-        uses: jdpurcell/install-qt-action@v5
+        uses: jdpurcell/install-qt-action@staging
         with:
           version: ${{ matrix.qtVersion }}
           arch: ${{ matrix.qtArch }}
+          cache: false
+          use-naqt: true
+          setup-python: false
+          mirror: https://qt.mirror.constant.com
+          nohash: true
       - name: Build
         shell: pwsh
         run: ci/build.ps1
