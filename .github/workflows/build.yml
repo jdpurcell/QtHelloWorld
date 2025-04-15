@@ -32,6 +32,7 @@ jobs:
           arch: ${{ matrix.qtArch }}
           cache: false
           use-naqt: true
+          naqt-via-git: true
           setup-python: false
           mirror: https://qt.mirror.constant.com
           nohash: true
