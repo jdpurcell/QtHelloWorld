@@ -7,23 +7,23 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - runner: 'macos-latest'
-            buildArch: 'Universal'
-            qtVersion: '6.8.1'
-          - runner: 'windows-latest'
-            buildArch: 'X64'
-            qtVersion: '6.8.1'
-            qtArch: 'win64_msvc2022_64'
+          # - runner: 'macos-latest'
+          #   buildArch: 'Universal'
+          #   qtVersion: '6.8.1'
+          # - runner: 'windows-latest'
+          #   buildArch: 'X64'
+          #   qtVersion: '6.8.1'
+          #   qtArch: 'win64_msvc2022_64'
           - runner: 'windows-11-arm'
             buildArch: 'Arm64'
             qtVersion: '6.8.1'
-            qtArch: 'win64_msvc2022_arm64'
-          - runner: 'ubuntu-22.04'
-            buildArch: 'X64'
-            qtVersion: '6.8.1'
-          - runner: 'ubuntu-24.04-arm'
-            buildArch: 'Arm64'
-            qtVersion: '6.8.1'
+          #   qtArch: 'win64_msvc2022_arm64'
+          # - runner: 'ubuntu-22.04'
+          #   buildArch: 'X64'
+          #   qtVersion: '6.8.1'
+          # - runner: 'ubuntu-24.04-arm'
+          #   buildArch: 'Arm64'
+          #   qtVersion: '6.8.1'
     runs-on: ${{ matrix.runner }}
     steps:
       - name: Checkout
@@ -33,7 +33,7 @@ jobs:
         with:
           version: ${{ matrix.qtVersion }}
           arch: ${{ matrix.qtArch }}
-          cache: true
+          cache: false
           use-naqt: true
           setup-python: false
       - name: Build
