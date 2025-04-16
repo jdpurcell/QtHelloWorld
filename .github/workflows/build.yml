@@ -31,11 +31,9 @@ jobs:
           version: ${{ matrix.qtVersion }}
           arch: ${{ matrix.qtArch }}
           cache: false
-          use-naqt: true
-          setup-python: false
+          use-naqt: false
+          setup-python: true
           mirror: https://qt.mirror.constant.com
-          nohash: true
-          extensions: qtpdf
       - name: Build
         shell: pwsh
         run: ci/build.ps1
