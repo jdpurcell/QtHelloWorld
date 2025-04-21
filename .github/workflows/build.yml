@@ -28,19 +28,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.12
-          architecture: ${{ runner.os == 'Windows' && runner.arch == 'ARM64' && 'x64' || '' }}
       - name: Install Qt
-        uses: jdpurcell/install-qt-action@v5
+        uses: jdpurcell/install-qt-action@staging
         with:
           version: ${{ matrix.qtVersion }}
           arch: ${{ matrix.qtArch }}
           aqtsource: 'git+https://github.com/tsteven4/aqtinstall.git@woa'
-          cache: false
-          setup-python: false
       - name: Build
         shell: pwsh
         run: ci/build.ps1
