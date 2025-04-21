@@ -7,47 +7,51 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # - runner: 'macos-latest'
-          #   buildArch: 'Universal'
-          #   qtVersion: '6.8.1'
-          # - runner: 'windows-latest'
-          #   buildArch: 'X64'
-          #   qtVersion: '6.8.1'
-          #   qtArch: 'win64_msvc2022_64'
+          - runner: 'macos-latest'
+            buildArch: 'Universal'
+            qtVersion: '6.8.1'
+          - runner: 'windows-latest'
+            buildArch: 'X64'
+            qtVersion: '6.8.1'
+            qtArch: 'win64_msvc2022_64'
           - runner: 'windows-11-arm'
             buildArch: 'Arm64'
             qtVersion: '6.8.1'
-          #   qtArch: 'win64_msvc2022_arm64'
-          # - runner: 'ubuntu-22.04'
-          #   buildArch: 'X64'
-          #   qtVersion: '6.8.1'
-          # - runner: 'ubuntu-24.04-arm'
-          #   buildArch: 'Arm64'
-          #   qtVersion: '6.8.1'
+            qtArch: 'win64_msvc2022_arm64'
+          - runner: 'ubuntu-22.04'
+            buildArch: 'X64'
+            qtVersion: '6.8.1'
+          - runner: 'ubuntu-24.04-arm'
+            buildArch: 'Arm64'
+            qtVersion: '6.8.1'
     runs-on: ${{ matrix.runner }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Runner info
+        run: |
+          echo "runner.os: ${{ runner.os }}"
+          echo "runner.arch: ${{ runner.arch }}"
       # - name: Setup Python
-      #   uses: actions/setup-python@v4
+      #   uses: actions/setup-python@v5
       #   with:
       #     python-version: 3.12
       #     architecture: x64
-      - name: Install Qt
-        uses: jdpurcell/install-qt-action@v5
-        with:
-          version: ${{ matrix.qtVersion }}
-          arch: ${{ matrix.qtArch }}
-          aqtsource: 'git+https://github.com/tsteven4/aqtinstall.git@woa'
-          cache: false
-          setup-python: false
-      - name: Build
-        shell: pwsh
-        run: ci/build.ps1
-        env:
-          buildArch: ${{ matrix.buildArch }}
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: QtHelloWorld-${{ runner.os }}-${{ matrix.buildArch }}-${{ matrix.qtVersion }}
-          path: build
+      # - name: Install Qt
+      #   uses: jdpurcell/install-qt-action@v5
+      #   with:
+      #     version: ${{ matrix.qtVersion }}
+      #     arch: ${{ matrix.qtArch }}
+      #     aqtsource: 'git+https://github.com/tsteven4/aqtinstall.git@woa'
+      #     cache: false
+      #     setup-python: false
+      # - name: Build
+      #   shell: pwsh
+      #   run: ci/build.ps1
+      #   env:
+      #     buildArch: ${{ matrix.buildArch }}
+      # - name: Upload Artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: QtHelloWorld-${{ runner.os }}-${{ matrix.buildArch }}-${{ matrix.qtVersion }}
+      #     path: build
