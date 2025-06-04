@@ -33,7 +33,6 @@ jobs:
           cache: false
           use-naqt: false
           setup-python: true
-          mirror: https://qt.mirror.constant.com
       - name: Build
         shell: pwsh
         run: ci/build.ps1
