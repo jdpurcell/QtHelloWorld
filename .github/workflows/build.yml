@@ -21,6 +21,9 @@ jobs:
           - runner: 'ubuntu-22.04'
             buildArch: 'X64'
             qtVersion: '6.8.3'
+          - runner: 'ubuntu-24.04-arm'
+            buildArch: 'Arm64'
+            qtVersion: '6.8.3'
     runs-on: ${{ matrix.runner }}
     steps:
       - name: Checkout
