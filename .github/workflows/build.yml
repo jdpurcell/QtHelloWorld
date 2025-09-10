@@ -16,7 +16,7 @@ jobs:
           #   qtArch: 'win64_msvc2022_64'
           - runner: 'windows-latest'
             buildArch: 'Arm64'
-            qtVersion: '6.9.2'
+            qtVersion: '6.10.0'
             qtArch: 'win64_msvc2022_arm64_cross_compiled'
           # - runner: 'ubuntu-22.04'
           #   buildArch: 'X64'
