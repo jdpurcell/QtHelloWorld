@@ -9,19 +9,19 @@ jobs:
         include:
           - runner: 'macos-latest'
             buildArch: 'Universal'
-            qtVersion: '6.9.3'
+            qtVersion: '6.11.0'
           - runner: 'windows-latest'
             buildArch: 'X64'
-            qtVersion: '6.9.3'
+            qtVersion: '6.11.0'
           - runner: 'windows-11-arm'
             buildArch: 'Arm64'
-            qtVersion: '6.9.3'
+            qtVersion: '6.11.0'
           - runner: 'ubuntu-22.04'
             buildArch: 'X64'
-            qtVersion: '6.9.3'
+            qtVersion: '6.11.0'
           - runner: 'ubuntu-24.04-arm'
             buildArch: 'Arm64'
-            qtVersion: '6.9.3'
+            qtVersion: '6.11.0'
     runs-on: ${{ matrix.runner }}
     steps:
       - name: Checkout
