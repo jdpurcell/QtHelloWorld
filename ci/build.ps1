@@ -57,9 +57,6 @@ if ($IsWindows) {
     Remove-Item -Recurse "temp.sparsebundle"
     Remove-Item -Recurse "$appName.app"
 } elseif ($IsLinux) {
-    sudo apt update
-    sudo apt install libfuse2
-
     $archName = switch ($env:buildArch) {
         'X64' { 'x86_64' }
         'Arm64' { 'aarch64' }
