@@ -31,9 +31,8 @@ jobs:
         with:
           version: ${{ matrix.qtVersion }}
           arch: ${{ matrix.qtArch }}
-          tools: 'tools_cmake'
           use-naqt: true
-          setup-python: true
+          setup-python: false
           cache: false
       - name: Build
         shell: pwsh
