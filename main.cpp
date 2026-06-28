@@ -2,15 +2,15 @@
 
 class MainWindow : public QMainWindow {
 public:
-    MainWindow(QWidget *parent = nullptr) : QMainWindow{parent} {
+    explicit MainWindow(QWidget *parent = nullptr) : QMainWindow{parent} {
         setWindowTitle("Hello World");
-        setCentralWidget(new QWidget(this));
+        setCentralWidget(new QWidget);
     }
 };
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
-    MainWindow *win = new MainWindow();
-    win->show();
+    MainWindow win;
+    win.show();
     return app.exec();
 }
