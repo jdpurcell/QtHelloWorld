@@ -3,8 +3,18 @@
 class MainWindow : public QMainWindow {
 public:
     explicit MainWindow(QWidget *parent = nullptr) : QMainWindow{parent} {
-        setWindowTitle("Hello World");
-        setCentralWidget(new QWidget);
+        setWindowTitle("App");
+        auto *central = new QWidget;
+        auto *layout = new QVBoxLayout(central);
+        auto *button = new QPushButton("Toggle Fullscreen");
+        connect(button, &QPushButton::clicked, this, [this]() {
+            if (isFullScreen())
+                showNormal();
+            else
+                showFullScreen();
+        });
+        layout->addWidget(button);
+        setCentralWidget(central);
     }
 };
 
