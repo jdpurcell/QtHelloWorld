@@ -32,7 +32,7 @@ jobs:
           version: ${{ matrix.qtVersion }}
           arch: ${{ matrix.qtArch }}
           use-naqt: true
-          setup-python: false
+          setup-python: true
           cache: false
       - name: Build
         shell: pwsh
