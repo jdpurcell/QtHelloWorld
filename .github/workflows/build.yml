@@ -7,20 +7,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - runner: 'macos-latest'
-            buildArch: 'Universal'
-            qtVersion: '6.9.3'
-          - runner: 'windows-latest'
-            buildArch: 'X64'
-            qtVersion: '6.9.3'
-          - runner: 'windows-11-arm'
-            buildArch: 'Arm64'
-            qtVersion: '6.9.3'
           - runner: 'ubuntu-22.04'
             buildArch: 'X64'
-            qtVersion: '6.9.3'
-          - runner: 'ubuntu-24.04-arm'
-            buildArch: 'Arm64'
             qtVersion: '6.9.3'
     runs-on: ${{ matrix.runner }}
     steps:
@@ -29,16 +17,9 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
-          version: ${{ matrix.qtVersion }}
-          arch: ${{ matrix.qtArch }}
-          cache: true
-      - name: Build
-        shell: pwsh
-        run: ci/build.ps1
-        env:
-          buildArch: ${{ matrix.buildArch }}
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v7
-        with:
-          name: QtHelloWorld-${{ runner.os }}-${{ matrix.buildArch }}-${{ matrix.qtVersion }}
-          path: build
+          version: 6.11.1
+          host: all_os
+          target: android
+          arch: android_arm64_v8a
+          modules: qtwebview qtpositioning qtlocation qtpdf
+          aqtsource: git+https://github.com/miurahr/aqtinstall.git
