@@ -7,12 +7,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - runner: 'macos-latest'
-            buildArch: 'Universal'
-            qtVersion: '6.11.2'
-          - runner: 'ubuntu-22.04'
-            buildArch: 'X64'
-            qtVersion: '6.11.2'
+          # - runner: 'macos-latest'
+          #   buildArch: 'Universal'
+          #   qtVersion: '6.11.2'
+          # - runner: 'ubuntu-22.04'
+          #   buildArch: 'X64'
+          #   qtVersion: '6.11.2'
           - runner: 'ubuntu-24.04-arm'
             buildArch: 'Arm64'
             qtVersion: '6.11.2'
@@ -21,12 +21,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Install Qt
-        uses: jdpurcell/install-qt-action@v5
+        uses: jurplel/install-qt-action@v4
         with:
           version: ${{ matrix.qtVersion }}
           arch: ${{ matrix.qtArch }}
-          use-naqt: true
-          setup-python: false
       - name: Build
         shell: pwsh
         run: ci/build.ps1
