@@ -20,11 +20,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '>=3.14.0'
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
           version: ${{ matrix.qtVersion }}
           arch: ${{ matrix.qtArch }}
+          setup-python: false
       - name: Build
         shell: pwsh
         run: ci/build.ps1
