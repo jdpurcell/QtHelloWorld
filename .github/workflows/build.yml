@@ -27,13 +27,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Install Qt
-        uses: jdpurcell/install-qt-action@staging
+        uses: jdpurcell/install-qt-action@v5
         with:
           version: ${{ matrix.qtVersion }}
           arch: ${{ matrix.qtArch }}
-          cache: true
+          cache: false
           use-naqt: true
-          naqtsource: git+https://github.com/jdpurcell/naqt.git@1d1e8181f5e82dc1bd41c1c3fbb81127e2f7b692
           setup-python: false
       - name: Build
         shell: pwsh
