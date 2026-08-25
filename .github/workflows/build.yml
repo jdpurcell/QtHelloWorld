@@ -31,7 +31,6 @@ jobs:
         with:
           version: ${{ matrix.qtVersion }}
           arch: ${{ matrix.qtArch }}
-          autodesktop: false
           cache: true
           use-naqt: true
           setup-python: false
