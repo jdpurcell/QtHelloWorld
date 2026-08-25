@@ -31,7 +31,7 @@ jobs:
         with:
           version: ${{ matrix.qtVersion }}
           arch: ${{ matrix.qtArch }}
-          cache: true
+          cache: false
           use-naqt: true
           setup-python: false
       - name: Build
