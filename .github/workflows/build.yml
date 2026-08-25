@@ -31,8 +31,9 @@ jobs:
         with:
           version: ${{ matrix.qtVersion }}
           arch: ${{ matrix.qtArch }}
-          cache: false
+          cache: true
           use-naqt: true
+          naqtsource: git+https://github.com/jdpurcell/naqt.git
           setup-python: false
       - name: Build
         shell: pwsh
